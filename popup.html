@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Timestamp Bookmarker</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      width: 350px;
+      min-height: 200px;
+      max-height: 600px;
+    }
+    
+    /* Custom toggle styles to ensure it works properly */
+    .toggle-slider {
+      transition: background-color 0.3s ease;
+    }
+    
+    .toggle-slider:after {
+      transition: transform 0.3s ease;
+    }
+    
+    input:checked + .toggle-slider:after {
+      transform: translateX(100%);
+    }
+    
+    /* Bookmark list styles */
+    .bookmark-list {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .bookmark-item {
+      transition: background-color 0.2s ease;
+    }
+    
+    .bookmark-item:hover {
+      background-color: #f3f4f6;
+    }
+    
+    /* Tab styles */
+    .tab-active {
+      border-bottom: 2px solid #dc2626;
+      color: #dc2626;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 p-4">
+  <div class="bg-white rounded-lg shadow-md p-4">
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-xl font-bold text-red-600">YouTube Timestamp Bookmarker</h1>
+      <img src="icons/icon48.webp" alt="Logo" class="w-8 h-8">
+    </div>
+    
+    <!-- Tabs -->
+    <div class="flex border-b border-gray-200 mb-4">
+      <button id="tab-settings" class="px-4 py-2 font-medium tab-active">Settings</button>
+      <button id="tab-bookmarks" class="px-4 py-2 font-medium">Bookmarks</button>
+    </div>
+    
+    <!-- Settings Tab -->
+    <div id="settings-content" class="tab-content">
+      <div class="mb-4">
+        <div class="flex items-center justify-between">
+          <span class="font-medium">Auto-update bookmarks:</span>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="enableToggle" class="sr-only peer">
+            <div class="toggle-slider w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+          </label>
+        </div>
+        <p class="text-sm text-gray-600 mt-2">
+          When enabled, your bookmarks will automatically update with the current timestamp when you pause a YouTube video.
+        </p>
+      </div>
+      
+      <div class="border-t border-gray-200 pt-3 mt-3">
+        <h2 class="font-medium mb-2">How it works:</h2>
+        <ol class="text-sm text-gray-700 list-decimal pl-5 space-y-1">
+          <li>Play any YouTube video</li>
+          <li>Pause at an important moment</li>
+          <li>The extension updates your bookmark with the timestamp</li>
+          <li>Click the bookmark later to resume from that exact point</li>
+        </ol>
+      </div>
+    </div>
+    
+    <!-- Bookmarks Tab -->
+    <div id="bookmarks-content" class="tab-content hidden">
+      <div class="mb-4">
+        <h2 class="font-medium mb-2">Manage Bookmarks</h2>
+        <p class="text-sm text-gray-600">
+          View and manage bookmarks created by this extension.
+        </p>
+        
+        <div class="mt-3 flex justify-between">
+          <button id="refresh-bookmarks" class="text-sm bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">
+            Refresh
+          </button>
+          <button id="delete-all-bookmarks" class="text-sm bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+            Delete All
+          </button>
+        </div>
+      </div>
+      
+      <div id="bookmarks-loading" class="text-center py-4 text-gray-500">
+        Loading bookmarks...
+      </div>
+      
+      <div id="no-bookmarks" class="text-center py-4 text-gray-500 hidden">
+        No bookmarks found.
+      </div>
+      
+      <div id="bookmark-list" class="bookmark-list mt-2 border-t border-gray-200 pt-2 hidden">
+        <!-- Bookmarks will be inserted here by JavaScript -->
+      </div>
+    </div>
+    
+    <div class="mt-4 text-xs text-gray-500 text-center">
+      Version 1.1
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
